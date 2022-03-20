@@ -1,14 +1,15 @@
 import face_recognition, pickle, cv2, os
 
-# find path of xml file containing haarcascade file
+# trovo il path con il file con l'algoritmo per il riconoscimento facciale
 cascPathface = os.path.dirname(cv2.__file__) + "/data/haarcascade_frontalface_alt2.xml"
-# cascPathface = r"G:\Il mio Drive\ICT\python\robo vision\face recon\Il tipo ez\haarcascade_frontalface_default.xml"
-# load the harcaascade in the cascade classifier
+# carico l'algoritmo nel classificatore
 faceCascade = cv2.CascadeClassifier(cascPathface)
-# encPath = os.getcwd() + os.path.sep + "encodings.coim"
-encPath = os.path.dirname(os.path.realpath(__file__)) + os.path.sep + "encodings.coim"
-# load the known faces and embeddings saved in last file
+# do il path al file di encodings
+# encPath = os.path.dirname(os.path.realpath(__file__)) + os.path.sep + "encodings.coim"
+encPath = os.getcwd() + os.path.sep + "encodings.coim"
+# carico i dati dei volti in una variabile
 data = pickle.loads(open(encPath, "rb").read())
+
 #Find path to the image you want to detect face and pass it here
 image = cv2.imread(r"D:\FOTO SCIENZE\Stefano Arata\tieni_0x2210.jpg")
 rgb = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
