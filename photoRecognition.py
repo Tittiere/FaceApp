@@ -1,8 +1,4 @@
-import face_recognition
-import pickle
-import time
-import cv2
-import os
+import face_recognition, pickle, cv2
  
 #find path of xml file containing haarcascade file
 # cascPathface = os.path.dirname(cv2.__file__) + "/data/haarcascade_frontalface_alt2.xml"
