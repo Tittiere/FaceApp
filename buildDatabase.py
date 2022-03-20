@@ -3,10 +3,8 @@ import face_recognition, pickle, time, cv2, os
 # funzione per pulire la shell
 def clear():
     # scelgo il comando in base al sistema operativo
-    if str(os.path.sep) == '/':
-        os.system('clear')
-    else:
-        os.system('cls')
+    os.system('cls' if os.name=='nt' else 'clear')
+    
 
 # chiedo all'utente il path della cartella che contiene il
 # database e rimuovo le virgolette in caso ci siano
