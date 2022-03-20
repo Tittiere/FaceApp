@@ -4,8 +4,6 @@ import cv2
 import os
 
 #find path of xml file containing haarcascade file 
-prova = os.path.dirname(os.path.realpath(__file__)) + "\\dati.txt"
-
 cascPathface = os.path.dirname(cv2.__file__) + "/data/haarcascade_frontalface_alt2.xml"
 # load the harcaascade in the cascade classifier
 faceCascade = cv2.CascadeClassifier(cascPathface)
@@ -13,8 +11,10 @@ faceCascade = cv2.CascadeClassifier(cascPathface)
 # cascPath = 'G:\\Il mio Drive\\ICT\\python\\robo vision\\face recon\\Il tipo ez\\haarcascade_frontalface_default.xml'
 # faceCascade = cv2.CascadeClassifier(cascPath)
 
+encPath = os.getcwd() + os.path.sep + "encodings.coim"
+# encPath = os.path.dirname(os.path.realpath(__file__)) + os.path.sep + "encodings.coim"
 # load the known faces and embeddings saved in last file
-data = pickle.loads(open("G:\\Il mio Drive\\ICT\\python\\robo vision\\face recon\\true face rec\\final_enc", "rb").read())
+data = pickle.loads(open(encPath, "rb").read())
 
 print("Streaming started")
 cv2.useOptimized()
