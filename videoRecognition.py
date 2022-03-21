@@ -10,6 +10,7 @@ encPath = os.path.dirname(os.path.realpath(__file__)) + os.path.sep + "encodings
 # carico i dati dei volti in una variabile
 data = pickle.loads(open(encPath, "rb").read())
 
+# apro la telecamera
 print("Streaming started")
 cv2.useOptimized()
 video_capture = cv2.VideoCapture(0)
