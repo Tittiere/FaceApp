@@ -5,8 +5,8 @@ cascPathface = os.path.dirname(cv2.__file__) + "/data/haarcascade_frontalface_al
 # carico l'algoritmo nel classificatore
 faceCascade = cv2.CascadeClassifier(cascPathface)
 # do il path al file di encodings
-# encPath = os.path.dirname(os.path.realpath(__file__)) + os.path.sep + "encodings.coim"
-encPath = os.getcwd() + os.path.sep + "encodings.coim"
+encPath = os.path.dirname(os.path.realpath(__file__)) + os.path.sep + "encodings.coim"
+# encPath = os.getcwd() + os.path.sep + "encodings.coim"
 # carico i dati dei volti in una variabile
 data = pickle.loads(open(encPath, "rb").read())
 
