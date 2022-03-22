@@ -1,4 +1,4 @@
-import face_recognition, pickle, time, cv2, os
+import face_recognition, pickle, cv2, os
 
 # funzione per pulire la shell
 def clear():
@@ -11,7 +11,6 @@ def clear():
 # ciclo while in caso dia un path non valido
 while True:
     path = input('Inserisci il path alla cartella contenente il database:\n')
-    time.sleep(1.5)
     if path.startswith('"') or path.startswith("'"):
         path = path[1:-1]
     # aggiungo il separatore path di sistema
