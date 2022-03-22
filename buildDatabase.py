@@ -8,15 +8,21 @@ def clear():
 
 # chiedo all'utente il path della cartella che contiene il
 # database e rimuovo le virgolette in caso ci siano
-path = input('Inserisci il path alla cartella contenente il database:\n')
-time.sleep(1.5)
-if path.startswith('"') or path.startswith("'"):
-    path = path[1:-1]
-# aggiungo il separatore path di sistema
-path += os.path.sep
-# trovo, in ordine alfabetico, i nomi di tutto quello
-# che è contenutonella cartella del database
-filesInData = os.listdir(path)
+# ciclo while in caso dia un path non valido
+while True:
+    path = input('Inserisci il path alla cartella contenente il database:\n')
+    time.sleep(1.5)
+    if path.startswith('"') or path.startswith("'"):
+        path = path[1:-1]
+    # aggiungo il separatore path di sistema
+    path += os.path.sep
+    try:
+        # trovo, in ordine alfabetico, i nomi di tutto quello
+        # che è contenutonella cartella del database
+        filesInData = os.listdir(path)
+        break
+    except:
+        pass
 
 # inizializzo gli array che conterranno i valori dei volti
 # codificati ed i nomi corrispettivi
