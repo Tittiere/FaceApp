@@ -10,54 +10,62 @@ encPath = os.path.dirname(os.path.realpath(__file__)) + os.path.sep + "encodings
 # carico i dati dei volti in una variabile
 data = pickle.loads(open(encPath, "rb").read())
 
-#Find path to the image you want to detect face and pass it here
-image = cv2.imread(r"D:\FOTO SCIENZE\Stefano Arata\tieni_0x2210.jpg")
-rgb = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
-#convert image to Greyscale for haarcascade
+
+# chiedo all'utente il path della foto da analizzare
+# e rimuovo le virgolette in caso ci siano
+# ciclo while in caso dia un path non valido
+while True:
+    path = input('Inserisci il path alla foto da analzizare:\n')
+    if path.startswith('"') or path.startswith("'"):
+        path = path[1:-1]
+    try:
+        # col path all'immagine traccio il profilo colori dei pixel
+        image = cv2.imread(path)
+        rgb = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
+        break
+    except:
+        pass
+
+# converto l'immagine in scala di grigi per la funzione di riconoscimento
 gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
 faces = faceCascade.detectMultiScale(gray,
                                      scaleFactor=1.1,
                                      minNeighbors=5,
-                                     minSize=(30, 30),
+                                     minSize=(60, 60),
                                      flags=cv2.CASCADE_SCALE_IMAGE)
  
-# the facial embeddings for face in input
+# carico la faccia trovata nell'immagine
 encodings = face_recognition.face_encodings(rgb)
 names = []
-# loop over the facial embeddings incase
-# we have multiple embeddings for multiple fcaes
+# controllo se la faccia riconosciuta corrisponde alle facce salvate nel database
 for encoding in encodings:
-    #Compare encodings with encodings in data["encodings"]
-    #Matches contain array with boolean values and True for the embeddings it matches closely
-    #and False for rest
-    matches = face_recognition.compare_faces(data["encodings"],
-    encoding)
-    #set name =inknown if no encoding matches
+    # controllo se ho delle corrispondenze nel database di facce
+    matches = face_recognition.compare_faces(data["encodings"],encoding)
+    # nome da dare se la persona non è riconosciuta
     name = "Unknown"
-    # check to see if we have found a match
+    # se trovo un match
     if True in matches:
-        #Find positions at which we get True and store them
+        # trovo la posizione nell'array di quella corrispondenza
         matchedIdxs = [i for (i, b) in enumerate(matches) if b]
         counts = {}
-        # loop over the matched indexes and maintain a count for
-        # each recognized face face
+        # ciclo negli id per ogni faccia che corrisponde
         for i in matchedIdxs:
-            #Check the names at respective indexes we stored in matchedIdxs
+            # dopo che ho salvato gli indici delle facce vado a recuperare il nome
             name = data["names"][i]
-            #increase count for the name we got
             counts[name] = counts.get(name, 0) + 1
-            #set name which has highest count
-            name = max(counts, key=counts.get)
+        # prendo il nome di chi ha la maggior corrispondenza
+        name = max(counts, key=counts.get)
  
- 
-        # update the list of names
+        # aggiungo il nome alla lista di nomi
         names.append(name)
-        # loop over the recognized faces
+        # disegno un quadrato attorno alla faccia riconosciuta
         for ((x, y, w, h), name) in zip(faces, names):
-            # rescale the face coordinates
-            # draw the predicted face name on the image
+            # colore rosso se faccia non riconosciuta
+            col = (0, 255, 0)
+            if name == 'Unknown':
+                col = (0, 0, 255)
             cv2.rectangle(image, (x, y), (x + w, y + h), (0, 255, 0), 2)
-            cv2.putText(image, name, (x, y-10), cv2.FONT_HERSHEY_SIMPLEX,
-             0.75, (0, 255, 0), 2)
+            cv2.putText(image, name, (x, y-5), cv2.FONT_HERSHEY_SIMPLEX,0.75, (0, 255, 0), 2)
+    # stampo l'immagine
     cv2.imshow("Frame", image)
     cv2.waitKey(0)
