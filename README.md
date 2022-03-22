@@ -1,5 +1,5 @@
 # Face recognition bundle:
-Insieme di tre programmi di face recognition.
+Insieme di tre programmi di face recognition in python che sfruttano la libreria opencv per la gestione dell'input video e la libreria face-recognition (basata su dlib).
 ## buildDatabase.py:
 Questo programma crea un file con le codifiche dei volti in un database. Dopo aver aperto il programma fornire un percorso ad un database e aspettare che venga creato un file ".coim" (codified image).
 ## photoRecognition.py:
