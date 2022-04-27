@@ -13,7 +13,7 @@ while True:
     path = input('Inserisci il path alla cartella contenente il database:\n')
     if path.startswith('"') or path.startswith("'"):
         path = path[1:-1]
-    # aggiungo il separatore path di sistema
+    # aggiungo il separatore path di sistema"
     path += os.path.sep
     try:
         # trovo, in ordine alfabetico, i nomi di tutto quello
