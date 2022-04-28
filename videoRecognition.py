@@ -13,7 +13,7 @@ data = pickle.loads(open(encPath, "rb").read())
 # apro la telecamera
 print("Streaming started")
 cv2.useOptimized()
-video_capture = cv2.VideoCapture(0)
+video_capture = cv2.VideoCapture(1)
 sicurezza = []
 presenze = []
 # ciclo che viene eseguito una volta per ogni frame
@@ -61,28 +61,37 @@ while True:
                 col = (0, 0, 255)
             cv2.rectangle(frame, (x, y), (x + w, y + h), col, 2)
             cv2.putText(frame, name, (x, y-5), cv2.FONT_HERSHEY_SIMPLEX,0.75, col, 2)
+        # se un volto è riconosciuto aggiungo il nome corrispondente alla lista di sicurezza
         if name != 'Unknown':
             sicurezza.append(name)
     cv2.imshow("Frame", frame)
     if cv2.waitKey(1) & 0xFF == ord('q'):
         break
+    # quando ho riconosciuto 5 volte un volto controllo che almeno il 60% delle volte sia la stessa persona
+    # misura di sicurezza per evitare che in caso di errori il programma segni una presenza non vera
     if len(sicurezza) == 5:
         riscontri = []
         for el in sicurezza:
             riscontri.append(sicurezza.count(el))
         vai = False
         for el in riscontri:
+            # se sei stato riconosciuto 3 volte su 5
             if el >= 3:
                 vai = True
         if vai == True:
+            # estrapolo il nome della persona riconosciuta
             nome = sicurezza[riscontri.index(max(riscontri))]
             try:
+                # se è già entrato a scuola lo comunico
                 presenze.index(nome)
                 print(f'{nome} è già entrato')
             except ValueError:
+                # se no lo aggiungo alle presenze se non è già entrato
                 print(f'Ho riconosciuto {nome}')
                 presenze.append(nome)
         sicurezza = []
 
 video_capture.release()
-cv2.destroyAllWindows()   
+cv2.destroyAllWindows()
+# alla fine del programma stampo le presenze a scuola
+print(presenze)
